@@ -10,8 +10,8 @@ on:
     secrets:
       RTU_SONAR_BYCNIT_TOKEN:
         required: true
-      GITHUB_TOKEN: 
-        required: true
+      #GITHUB_TOKEN: 
+        #required: true
         
 jobs:
   build-and-test:
