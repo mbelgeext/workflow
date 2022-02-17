@@ -43,6 +43,10 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: maven
+    - name: Configure Git user
+      run: |
+        git config user.email "vinh.tong@bouygues-construction.com"
+        git config user.name "bycnit-vinhtong"        
     - name: Set release version
       id: project-version
       run: | 
