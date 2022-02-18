@@ -88,8 +88,8 @@ jobs:
       run: |
         ls ${{ github.workspace }}/target 
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+    #- name: Perform CodeQL Analysis
+      #uses: github/codeql-action/analyze@v1
       
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
