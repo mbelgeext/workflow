@@ -4,6 +4,9 @@ on:
   workflow_call:
     # Map the workflow outputs to job outputs
     inputs:
+      Profile:
+        required: true
+        type: string 
       ServiceName:
         required: true
         type: string 
@@ -59,7 +62,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2   
         
     - name: Test
-      run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.RTU_SONAR_BYCNIT_TOKEN }} -Pdocker 
+      run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.RTU_SONAR_BYCNIT_TOKEN }} -P${{ inputs.Profile }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: SonarQube Quality Gate Check
@@ -74,7 +77,7 @@ jobs:
       uses: github/codeql-action/analyze@v1
       
     - name: Build and deploy package
-      run: mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
+      run: mvn  -B -DskipTests -Darguments=-DskipTests deploy -P${{ inputs.Profile }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
     - name: Check File exists
