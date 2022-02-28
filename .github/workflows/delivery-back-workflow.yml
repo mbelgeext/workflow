@@ -23,7 +23,8 @@ on:
         required: true
       RTU_AZUREAPPSERVICE_CONTAINERPASSWORD: 
         required: true
-        
+      RTU_AZUREPIPELINES_TOKEN: 
+        required: true        
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -172,3 +173,12 @@ jobs:
         file: ./Dockerfile
         context: ./    
         no-cache: true
+        
+  deploy-to-dev:        
+    - name: Launching CD
+      uses: Azure/pipelines@v1.2 
+      with:
+        azure-devops-project-url: 'https://dev.azure.com/BYCNITOPS/RTU'
+        azure-pipeline-name: 'rtu-back'
+        azure-devops-token: ${{ secrets.RTU_AZUREPIPELINES_TOKEN }}
+        azure-pipeline-variables: '{"image_version": "${{ needs.build-and-test.outputs.release-version }}"}'        
