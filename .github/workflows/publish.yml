@@ -16,8 +16,6 @@ on:
         required: true
         type: string
     secrets:
-      SONAR_TOKEN:
-        required: true
       ACR_PASSWORD:
         required: true
   
