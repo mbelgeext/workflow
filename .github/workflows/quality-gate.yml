@@ -1,0 +1,45 @@
+name: quality-gate
+
+on:
+  workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: true
+
+jobs:
+  codeql & sonar:
+    runs-on: ubuntu-latest
+    environment: development    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: true
+      matrix:
+        language: [ 'java' ]
+        
+    steps:
+
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        config-file: ./.github/codeql/codeql-config.yml       
+        languages: ${{ matrix.language }} 
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1  
+
+    - name: SonarQube Quality Gate Check
+      uses: SonarSource/sonarqube-quality-gate-action@v1.0.0
+      timeout-minutes: 5
+      with:
+        scanMetadataReportFile: ${{ github.workspace }}/target/sonar/report-task.txt  # optional, default is .scannerwork/report-task.txt
+      env: 
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   
+
+
