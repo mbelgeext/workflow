@@ -38,7 +38,7 @@ jobs:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2 
-        
+
     - name: 🔨 Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
@@ -58,17 +58,17 @@ jobs:
       env: 
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    - name: Build and deploy package
-      run: mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Build and deploy package
+    #   run: mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   
-    - name: Check File exists
-      run: |
-        ls ${{ github.workspace }}/target 
-        ls ${{ github.workspace }}/target/sonar
+    # - name: Check File exists
+    #   run: |
+    #     ls ${{ github.workspace }}/target 
+    #     ls ${{ github.workspace }}/target/sonar
 
-    - name: 🧐 Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+    # - name: 🧐 Perform CodeQL Analysis
+    #   uses: github/codeql-action/analyze@v1
 
 
