@@ -7,7 +7,7 @@ on:
         required: true
 
 jobs:
-  codeql & sonar:
+  codeql-sonar:
     runs-on: ubuntu-latest
     environment: development    
     permissions:
