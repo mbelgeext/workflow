@@ -7,7 +7,7 @@ on:
         required: true
 
 jobs:
-  build-and-test:
+  🎉build-and-test:
     runs-on: ubuntu-latest
     environment: development    
     permissions:
