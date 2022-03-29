@@ -1,0 +1,4 @@
+name: "Custom CodeQL configuration"
+
+queries:
+  - uses: security-and-quality

@@ -1,0 +1,64 @@
+name: Build
+
+on:
+  workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      GITHUB_TOKEN: 
+        required: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    environment: development    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: true
+      matrix:
+        language: [ 'java' ]
+        
+    steps:
+    - uses: actions/checkout@v2     
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        config-file: ./.github/codeql/codeql-config.yml       
+        languages: ${{ matrix.language }}      
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: maven
+
+    - name: Cache the Maven packages to speed up build
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2   
+        
+    - name: Test
+      run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Pdev 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: SonarQube Quality Gate Check
+      uses: SonarSource/sonarqube-quality-gate-action@v1.0.0
+      timeout-minutes: 5
+      with:
+        scanMetadataReportFile: ${{ github.workspace }}/target/sonar/report-task.txt  # optional, default is .scannerwork/report-task.txt
+      env: 
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
+      
+    - name: Build 
+      run: mvn  -B -DskipTests -Darguments=-DskipTests clean install -Pdev
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
