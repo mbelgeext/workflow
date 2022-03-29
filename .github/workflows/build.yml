@@ -2,6 +2,10 @@ name: Build
 
 on:
   workflow_call:
+    inputs:
+      APPLICATION_NAME:
+        required: true
+        type: string 
     secrets:
       SONAR_TOKEN:
         required: true
@@ -52,5 +56,5 @@ jobs:
     - name: ⬇️ Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: rtu-gateway
-        path: '${{ github.workspace }}/target/rtu-gateway.jar' 
+        name: ${{ inputs.APPLICATION_NAME }}
+        path: '${{ github.workspace }}/target/${{ inputs.APPLICATION_NAME }}.jar' 
