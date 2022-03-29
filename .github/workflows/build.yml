@@ -48,3 +48,9 @@ jobs:
       run: mvn  -B -DskipTests -Darguments=-DskipTests clean install -Pdev
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: ⬇️ Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: rtu-gateway
+        path: '${{ github.workspace }}/target/rtu-gateway.jar' 
