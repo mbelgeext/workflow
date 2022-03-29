@@ -5,7 +5,9 @@ on:
     inputs:
       APPLICATION_NAME:
         required: true
-        type: string 
+        type: string
+    outputs:
+      RELEASE_VERSION: ${{steps.project-version.outputs.RELEASE_VERSION}}
     secrets:
       SONAR_TOKEN:
         required: true
@@ -35,6 +37,16 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: maven
+
+    - name: Set release version
+      id: project-version
+      run: | 
+        RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
+        echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
+
+    - name: Show release version
+      run: | 
+         echo "${{steps.project-version.outputs.RELEASE_VERSION}}" 
 
     - name: 💾 Cache the Maven packages to speed up build
       uses: actions/cache@v1
