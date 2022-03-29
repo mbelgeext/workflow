@@ -51,7 +51,7 @@ jobs:
       with:
         registry: ${{ inputs.ACR_URL }}
         username: ${{ inputs.ACR_USERNAME }}
-        password: ${{ inputs.ACR_PASSWORD }} 
+        password: ${{ secrets.ACR_PASSWORD }} 
 
     - name: Build Docker image
       uses: docker/build-push-action@v2
