@@ -22,19 +22,19 @@ jobs:
         
     steps:
 
-    - name: Checkout repo
+    - name: 🛎️ Checkout
       uses: actions/checkout@v2
 
-    - name: Initialize CodeQL
+    - name: 🔨 Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
         config-file: ./.github/codeql/codeql-config.yml       
         languages: ${{ matrix.language }} 
 
-    - name: Perform CodeQL Analysis
+    - name: 🧐 Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1  
 
-    - name: SonarQube Quality Gate Check
+    - name: 📝 SonarQube Quality Gate Check
       uses: SonarSource/sonarqube-quality-gate-action@v1.0.0
       timeout-minutes: 5
       with:

@@ -7,7 +7,7 @@ on:
         required: true
 
 jobs:
-  🎉build-and-test:
+  build-and-test:
     runs-on: ubuntu-latest
     environment: development    
     permissions:
@@ -22,29 +22,29 @@ jobs:
         
     steps:
 
-    - name: Checkout repo
+    - name: 🛎️ Checkout
       uses: actions/checkout@v2 
    
-    - name: Set up JDK 11
+    - name: ⚙️ Set up JDK 11
       uses: actions/setup-java@v2
       with:
         java-version: '11'
         distribution: 'adopt'
         cache: maven
 
-    - name: Cache the Maven packages to speed up build
+    - name: 💾 Cache the Maven packages to speed up build
       uses: actions/cache@v1
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2   
         
-    - name: Test
+    - name: 🚨 Test
       run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Pdev 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-    - name: Build 
+    - name: 🏗️ Build 
       run: mvn  -B -DskipTests -Darguments=-DskipTests clean install -Pdev
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
