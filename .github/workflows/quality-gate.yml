@@ -32,7 +32,12 @@ jobs:
         languages: ${{ matrix.language }} 
 
     - name: 🧐 Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1  
+      uses: github/codeql-action/analyze@v1
+
+    - name: 🚨 Test
+      run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Pdev 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: 📝 SonarQube Quality Gate Check
       uses: SonarSource/sonarqube-quality-gate-action@v1.0.0
