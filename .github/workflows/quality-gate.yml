@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        language: [ 'java' ]
+        language: [ '🛎️' ]
         
     steps:
 
@@ -58,10 +58,10 @@ jobs:
       env: 
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    # - name: Build and deploy package
-    #   run: mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and deploy package
+      run: mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   
     # - name: Check File exists
     #   run: |
