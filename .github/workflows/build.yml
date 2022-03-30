@@ -7,7 +7,8 @@ on:
         required: true
         type: string
     outputs:
-      RELEASE_VERSION: ${{RELEASE_VERSION}}
+      RELEASE_VERSION: 
+        value: ${{ steps.project-version.outputs.RELEASE_VERSION }}
     secrets:
       SONAR_TOKEN:
         required: true
