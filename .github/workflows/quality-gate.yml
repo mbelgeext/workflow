@@ -74,13 +74,6 @@ jobs:
       fail-fast: true
     name: Sonar checks
     steps:
-    - name: Check SONAR_TOKEN if empty
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      if: env.SONAR_TOKEN != null
-      uses: potiuk/cancel-workflow-runs@master
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: 🛎️ Checkout
       uses: actions/checkout@v2
