@@ -106,8 +106,7 @@ jobs:
         scanMetadataReportFile: ${{ github.workspace }}/target/sonar/report-task.txt  # optional, default is .scannerwork/report-task.txt
       env: 
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-cucumber:
+  cucumber:
     if: ${{ inputs.CUCUMBER_CHECKS }}
     runs-on: ubuntu-latest
     environment: development    
