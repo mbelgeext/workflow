@@ -2,6 +2,19 @@ name: Quality-gate
 
 on:
   workflow_call:
+    inputs:
+      SONAR_CHECKS:
+        type: boolean
+        required: false
+        default: false
+      CODEQL_CHECKS:
+        type: boolean
+        required: false
+        default: false
+      CUCUMBER_CHECKS:
+        type: boolean
+        required: false
+        default: false
     secrets:
       SONAR_TOKEN:
         required: true
@@ -10,6 +23,7 @@ on:
 
 jobs:
   codeql:
+    if: ${{ inputs.CODEQL_CHECKS }}
     runs-on: ubuntu-latest
     environment: development    
     permissions:
