@@ -15,6 +15,9 @@ on:
       IMAGE_NAME:
         required: true
         type: string
+      RELEASE_VERSION:
+        required: true
+        type: string
     secrets:
       ACR_PASSWORD:
         required: true
@@ -31,7 +34,7 @@ jobs:
 
     - name: Get release version
       run: | 
-         echo "${{ needs.build-and-test.outputs.release-version }}"
+         echo "${{ inputs.RELEASE_VERSION }}"
 
     - name: ⬆️ Download artifact from build job
       uses: actions/download-artifact@v2
@@ -57,7 +60,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         repository: ${{ inputs.IMAGE_NAME }}
-        tags: ${{ inputs.IMAGE_NAME }}:${{ needs.build-and-test.outputs.release-version }}
+        tags: ${{ inputs.IMAGE_NAME }}:${{ inputs.RELEASE_VERSION }}
         file: ./Dockerfile
         context: ./    
         push: false       
@@ -67,7 +70,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: ${{ inputs.IMAGE_NAME }}:${{ needs.build-and-test.outputs.release-version }}, ${{ inputs.IMAGE_NAME }}:latest
+        tags: ${{ inputs.IMAGE_NAME }}:${{ inputs.RELEASE_VERSION }}, ${{ inputs.IMAGE_NAME }}:latest
         file: ./Dockerfile
         context: ./    
         no-cache: true
