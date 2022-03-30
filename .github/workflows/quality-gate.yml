@@ -77,7 +77,7 @@ jobs:
     - name: Check SONAR_TOKEN if empty
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      if: $SONAR_TOKEN != null
+      if: env.SONAR_TOKEN != null
       #uses: styfle/cancel-workflow-action@0.9.1
       #with:
       #  access_token: ${{ secrets.GITHUB_TOKEN }}
