@@ -14,12 +14,9 @@ jobs:
       actions: read
       contents: read
       security-events: write
-
     strategy:
       fail-fast: true
-
-    name: test nom
-    
+    name: Quality gate
     steps:
 
     - name: 🛎️ Checkout

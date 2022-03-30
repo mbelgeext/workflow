@@ -20,6 +20,7 @@ jobs:
     environment: development    
     outputs:
       RELEASE_VERSION: ${{ steps.project-version.outputs.RELEASE_VERSION }}
+    name: Build
     steps:
 
     - name: 🛎️ Checkout
