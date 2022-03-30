@@ -7,34 +7,40 @@ This project contains generic templates to launch workflows
 
 🔨 Build workflow
 
+```
   build:
     name: 🔨
     uses: bouygues-construction/rtu-workflow/.github/workflows/build.yml@test-reusable-workflows
     with:
-      APPLICATION_NAME: rtu-gateway
+      APPLICATION_NAME: *****
     secrets:
-      SONAR_TOKEN: ${{ secrets.RTU_SONAR_TOKEN }}
+      SONAR_TOKEN: ${{ secrets.***** }}
+```
     
 📝 Quality gate workflow
 
+```
   quality-gate:
     name: 📝
     needs: build
     uses: bouygues-construction/rtu-workflow/.github/workflows/quality-gate.yml@test-reusable-workflows
     secrets:
-      SONAR_TOKEN: ${{ secrets.RTU_SONAR_TOKEN }}
+      SONAR_TOKEN: ${{ secrets.***** }}
+```
 
 🚚 Publish workflow
 
+```
   publish:
     name: 🚚
     needs: [build, quality-gate]
     uses: bouygues-construction/rtu-workflow/.github/workflows/publish.yml@test-reusable-workflows
     with:
-      RELEASE_VERSION: ${{ needs.build.outputs.RELEASE_VERSION }}
-      APPLICATION_NAME: rtu-gateway
-      ACR_URL: https://acrbcnzakstemp.azurecr.io/
-      ACR_USERNAME: acrbcnzakstemp
-      IMAGE_NAME: acrbcnzakstemp.azurecr.io/acrbcnzakstemp/rtu-gateway
+      RELEASE_VERSION: ${{ needs.build.outputs.RELEASE_VERSION }} # do not modify this
+      APPLICATION_NAME: *****
+      ACR_URL: https://*****.azurecr.io/
+      ACR_USERNAME: *****
+      IMAGE_NAME: *****.azurecr.io/*****
     secrets:
-      ACR_PASSWORD: ${{ secrets.RTU_ACR_PASSWORD }}
+      ACR_PASSWORD: ${{ secrets.***** }}
+```
