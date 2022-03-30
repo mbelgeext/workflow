@@ -79,8 +79,8 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       if: $SONAR_TOKEN != null
       #uses: styfle/cancel-workflow-action@0.9.1
-      with:
-        access_token: ${{ secrets.GITHUB_TOKEN }}
+      #with:
+      #  access_token: ${{ secrets.GITHUB_TOKEN }}
       run: echo $SONAR_TOKEN
 
     - name: 🛎️ Checkout
