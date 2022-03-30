@@ -44,14 +44,14 @@ jobs:
         config-file: ./.github/codeql/codeql-config.yml
         languages: java
 
-    - name: Set release version
-      id: project-version
-      run: | 
-        RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
-        echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
-    - name: Show release version
-      run: | 
-        echo "${{steps.project-version.outputs.RELEASE_VERSION}}" 
+    # - name: Set release version
+    #   id: project-version
+    #   run: | 
+    #     RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
+    #     echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
+    # - name: Show release version
+    #   run: | 
+    #     echo "${{steps.project-version.outputs.RELEASE_VERSION}}" 
 
     # - name: Build and deploy package
     #   env:
@@ -64,9 +64,11 @@ jobs:
     #   run: |
     #     ls ${{ github.workspace }}/target 
     #     ls ${{ github.workspace }}/target/sonar
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
 
-    # - name: 🧐 Perform CodeQL Analysis
-    #   uses: github/codeql-action/analyze@v1
+    - name: 🧐 Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
 
   sonar:
     runs-on: ubuntu-latest
