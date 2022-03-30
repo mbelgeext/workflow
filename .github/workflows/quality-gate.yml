@@ -17,9 +17,7 @@ on:
         default: false
     secrets:
       SONAR_TOKEN:
-        required: true
-      GH_TOKEN:
-        required: true
+        required: false
 
 jobs:
   codeql:
@@ -76,6 +74,11 @@ jobs:
       fail-fast: true
     name: Sonar checks
     steps:
+    - name: Check SONAR_TOKEN if empty
+      if: ${{ inputs.SONAR_TOKEN }}
+      uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: 🛎️ Checkout
       uses: actions/checkout@v2
@@ -106,7 +109,7 @@ jobs:
         scanMetadataReportFile: ${{ github.workspace }}/target/sonar/report-task.txt  # optional, default is .scannerwork/report-task.txt
       env: 
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        
+
   cucumber:
     if: ${{ inputs.CUCUMBER_CHECKS }}
     runs-on: ubuntu-latest
