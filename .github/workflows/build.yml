@@ -6,6 +6,9 @@ on:
       APPLICATION_NAME:
         required: true
         type: string
+      PROFILE_ENV:
+        required: true
+        type: string
     outputs:
       RELEASE_VERSION:
         description: "Version number"
@@ -48,7 +51,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2   
       
     - name: 🏗️ Build 
-      run: mvn  -B -DskipTests -Darguments=-DskipTests clean install -Pdev
+      run: mvn  -B -DskipTests -Darguments=-DskipTests clean install -P${{ inputs.PROFILE_ENV }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
