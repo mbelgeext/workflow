@@ -7,7 +7,7 @@ on:
         required: true
 
 jobs:
-  quality-gate:
+  init:
     runs-on: ubuntu-latest
     environment: development    
     permissions:
@@ -16,7 +16,7 @@ jobs:
       security-events: write
     strategy:
       fail-fast: true
-    name: Quality gate
+    name: Init quality gate
     steps:
 
     - name: 🛎️ Checkout
@@ -36,12 +36,37 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2 
 
+  codeql:
+    runs-on: ubuntu-latest
+    environment: development    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: true
+    name: CodeQL checks
+    needs: init
+    steps:
+
     - name: 🔨 Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
-        config-file: ./.github/codeql/codeql-config.yml       
-        languages: ${{ matrix.language }} 
+        config-file: ./.github/codeql/codeql-config.yml
+        languages: java
 
+  sonar:
+    runs-on: ubuntu-latest
+    environment: development    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: true
+    name: Sonar checks
+    needs: init
+    steps:
     - name: 🚨 Test
       run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Pdev 
       env:
