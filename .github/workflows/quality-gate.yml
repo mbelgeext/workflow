@@ -35,6 +35,21 @@ jobs:
         config-file: ./.github/codeql/codeql-config.yml
         languages: java
 
+    - name: Build and deploy package
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "<settings><servers><server><id>github</id><username>GitHub Packages</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
+
+    # - name: Check File exists
+    #   run: |
+    #     ls ${{ github.workspace }}/target 
+    #     ls ${{ github.workspace }}/target/sonar
+
+    # - name: 🧐 Perform CodeQL Analysis
+    #   uses: github/codeql-action/analyze@v1
+
   sonar:
     runs-on: ubuntu-latest
     environment: development    
@@ -76,21 +91,3 @@ jobs:
         scanMetadataReportFile: ${{ github.workspace }}/target/sonar/report-task.txt  # optional, default is .scannerwork/report-task.txt
       env: 
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-    - name: Build and deploy package
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        mkdir ~/.m2
-        echo "<settings><servers><server><id>github</id><username>GitHub Packages</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-        mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
-
-    # - name: Check File exists
-    #   run: |
-    #     ls ${{ github.workspace }}/target 
-    #     ls ${{ github.workspace }}/target/sonar
-
-    # - name: 🧐 Perform CodeQL Analysis
-    #   uses: github/codeql-action/analyze@v1
-
-
