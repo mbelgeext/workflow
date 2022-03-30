@@ -53,10 +53,10 @@ jobs:
       run: | 
         echo "${{steps.project-version.outputs.RELEASE_VERSION}}" 
 
-    - name: Build and deploy package
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: mvn -B -e -Dmaven.wagon.http.pool=false clean deploy
+    # - name: Build and deploy package
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   run: mvn -B -e -Dmaven.wagon.http.pool=false clean deploy
       #mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
     
     
