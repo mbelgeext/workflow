@@ -29,6 +29,13 @@ jobs:
         distribution: 'adopt'
         cache: maven
 
+    - name: 💾 Cache the Maven packages to speed up build
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2 
+
     - name: 🔨 Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
@@ -38,9 +45,7 @@ jobs:
     - name: Build and deploy package
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        echo "<settings><servers><server><id>github</id><username>GitHub Packages</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-        mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
+      run: mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
 
     # - name: Check File exists
     #   run: |
