@@ -1,0 +1,41 @@
+name: Call-cd
+
+on:
+  workflow_call:
+    inputs:
+      AZURE_PROJECT_URL:
+        required: true
+        type: string 
+      AZURE_PIPELINE_NAME:
+        required: true
+        type: string
+      RELEASE_VERSION:
+        required: true
+        type: string
+    secrets:
+      AZURE_PIPELINE_TOKEN:
+        required: true
+
+jobs:
+  call-cd:
+    runs-on: ubuntu-latest
+    environment: development    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: true
+    name: Call CD
+    steps:
+
+    - name: 🛎️ Checkout
+      uses: actions/checkout@v2
+
+    - name: 🚀 Launching CD
+      uses: Azure/pipelines@v1.2 
+      with:
+        azure-devops-project-url: ${{ inputs.AZURE_PROJECT_URL }}
+        azure-pipeline-name: ${{ inputs.AZURE_PIPELINE_NAME }}
+        azure-devops-token: ${{ secrets.AZURE_PIPLINE_TOKEN }}
+        azure-pipeline-variables: '{"image_version": "${{ inputs.RELEASE_VERSION }}"}'
