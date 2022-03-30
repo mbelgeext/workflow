@@ -17,9 +17,9 @@ jobs:
 
     strategy:
       fail-fast: true
-      matrix:
-        language: [ '🛎️' ]
-        
+
+    name: test nom
+    
     steps:
 
     - name: 🛎️ Checkout
