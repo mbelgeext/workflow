@@ -9,7 +9,7 @@ on:
     outputs:
       RELEASE_VERSION:
         description: "Version number"
-        value: ${{ jobs.steps.project-version.outputs.RELEASE_VERSION }}
+        value: ${{ jobs.build.outputs.RELEASE_VERSION }}
     secrets:
       SONAR_TOKEN:
         required: true
@@ -22,12 +22,12 @@ jobs:
       actions: read
       contents: read
       security-events: write
-
     strategy:
       fail-fast: true
       matrix:
         language: [ 'java' ]
-        
+    outputs:
+      RELEASE_VERSION: ${{ steps.project-version.outputs.RELEASE_VERSION }}
     steps:
 
     - name: 🛎️ Checkout
