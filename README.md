@@ -1,4 +1,4 @@
-# RTU Gateway
+# Workflow generic templates
 
 This project contains generic templates to launch workflows
 
