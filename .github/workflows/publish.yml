@@ -23,7 +23,7 @@ on:
         required: true
   
 jobs:
-  publish-to-acr:
+  publish:
     runs-on: 'ubuntu-latest'
     environment: development    
     
@@ -32,7 +32,7 @@ jobs:
     - name: 🛎️ Checkout
       uses: actions/checkout@v2 
 
-    - name: Get release version
+    - name: 🔖 Get release version
       run: | 
          echo "${{ inputs.RELEASE_VERSION }}"
 
@@ -40,23 +40,19 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: ${{ inputs.APPLICATION_NAME }}
-        path: ${{ github.workspace }}/target
+        path: ${{ github.workspace }}/target    
 
-    - name: Check File exists
-      run: |
-        ls ${{ github.workspace }}/target          
-
-    - name: Set up Docker Buildx
+    - name: 👷 Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    - name: Log in to registry
+    - name: 🔒️ Log in to registry
       uses: docker/login-action@v1
       with:
         registry: ${{ inputs.ACR_URL }}
         username: ${{ inputs.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }} 
 
-    - name: Build Docker image
+    - name: 🧱 Build Docker image
       uses: docker/build-push-action@v2
       with:
         repository: ${{ inputs.IMAGE_NAME }}
@@ -66,7 +62,7 @@ jobs:
         push: false       
         load: true 
 
-    - name: Push container image to registry
+    - name: 🚀 Push container image to registry
       uses: docker/build-push-action@v2
       with:
         push: true

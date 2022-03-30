@@ -7,7 +7,7 @@ on:
         required: true
 
 jobs:
-  codeql-sonar:
+  quality-gate:
     runs-on: ubuntu-latest
     environment: development    
     permissions:
@@ -50,7 +50,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: 📝 SonarQube Quality Gate Check
+    - name: ✅ SonarQube Quality Gate Check
       uses: SonarSource/sonarqube-quality-gate-action@v1.0.0
       timeout-minutes: 5
       with:

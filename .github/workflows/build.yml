@@ -32,15 +32,12 @@ jobs:
         distribution: 'adopt'
         cache: maven
 
-    - name: Set release version
+    - name: 🔖 Manage release version
       id: project-version
       run: | 
         RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
         echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
-
-    - name: Show release version
-      run: | 
-         echo "${{steps.project-version.outputs.RELEASE_VERSION}}" 
+        echo "Version : $RELEASE_VERSION_DEV"
 
     - name: 💾 Cache the Maven packages to speed up build
       uses: actions/cache@v1
