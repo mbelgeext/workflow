@@ -37,5 +37,5 @@ jobs:
       with:
         azure-devops-project-url: ${{ inputs.AZURE_PROJECT_URL }}
         azure-pipeline-name: ${{ inputs.AZURE_PIPELINE_NAME }}
-        azure-devops-token: ${{ secrets.AZURE_PIPLINE_TOKEN }}
+        azure-devops-token: ${{ secrets.AZURE_PIPELINE_TOKEN }}
         azure-pipeline-variables: '{"image_version": "${{ inputs.RELEASE_VERSION }}"}'
