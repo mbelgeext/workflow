@@ -55,11 +55,8 @@ jobs:
 
     - name: Build and deploy package
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: |
-        echo "<settings><servers><server><id>github</id><username>GitHub Packages</username><password>\${env.GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-        REPO="github::default::https://maven.pkg.github.com/bouygues-construction/rtu-gateway"
-        mvn -B -DskipTests -Darguments=-DskipTests deploy -Pdocker -DaltReleaseDeploymentRepository="${REPO}" -DaltSnapshotDeploymentRepository="${REPO}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: mvn -B -e -Dmaven.wagon.http.pool=false clean deploy
       #mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
     
     
