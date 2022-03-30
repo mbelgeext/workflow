@@ -13,9 +13,6 @@ on:
       RELEASE_VERSION:
         description: "Version number"
         value: ${{ jobs.build.outputs.RELEASE_VERSION }}
-    secrets:
-      SONAR_TOKEN:
-        required: true
 
 jobs:
   build:
