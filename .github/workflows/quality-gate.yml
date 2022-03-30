@@ -44,27 +44,7 @@ jobs:
         config-file: ./.github/codeql/codeql-config.yml
         languages: java
 
-    # - name: Set release version
-    #   id: project-version
-    #   run: | 
-    #     RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
-    #     echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
-    # - name: Show release version
-    #   run: | 
-    #     echo "${{steps.project-version.outputs.RELEASE_VERSION}}" 
-
-    # - name: Build and deploy package
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   run: mvn -B -e -Dmaven.wagon.http.pool=false clean deploy
-      #mvn  -B -DskipTests -Darguments=-DskipTests deploy -Pdocker
-    
-    
-    # - name: Check File exists
-    #   run: |
-    #     ls ${{ github.workspace }}/target 
-    #     ls ${{ github.workspace }}/target/sonar
-    - name: Autobuild
+    - name: 🔧 Autobuild
       uses: github/codeql-action/autobuild@v1
 
     - name: 🧐 Perform CodeQL Analysis
