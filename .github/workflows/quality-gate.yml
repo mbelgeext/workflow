@@ -65,6 +65,7 @@ jobs:
       uses: github/codeql-action/analyze@v1
 
   sonar:
+    if: ${{ inputs.SONAR_CHECKS }}
     runs-on: ubuntu-latest
     environment: development    
     permissions:
@@ -105,3 +106,20 @@ jobs:
         scanMetadataReportFile: ${{ github.workspace }}/target/sonar/report-task.txt  # optional, default is .scannerwork/report-task.txt
       env: 
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+cucumber:
+    if: ${{ inputs.CUCUMBER_CHECKS }}
+    runs-on: ubuntu-latest
+    environment: development    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: true
+    name: Cucumber checks
+    steps:
+
+    - name: 🛎️ Checkout
+      uses: actions/checkout@v2
+
