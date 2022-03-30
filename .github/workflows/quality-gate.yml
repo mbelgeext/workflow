@@ -5,6 +5,8 @@ on:
     secrets:
       SONAR_TOKEN:
         required: true
+      GH_TOKEN:
+        required: true
 
 jobs:
   codeql:
@@ -53,7 +55,7 @@ jobs:
 
     - name: Build and deploy package
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         echo "<settings><servers><server><id>github</id><username>x-access-token</username><password>\${env.GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
         REPO="github::default::https://maven.pkg.github.com/bouygues-construction/rtu-gateway"
