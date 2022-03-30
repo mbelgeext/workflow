@@ -1,4 +1,4 @@
-name: Call-cd
+name: Launch-cd
 
 on:
   workflow_call:
@@ -17,7 +17,7 @@ on:
         required: true
 
 jobs:
-  call-cd:
+  launch-cd:
     runs-on: ubuntu-latest
     environment: development    
     permissions:
@@ -26,7 +26,7 @@ jobs:
       security-events: write
     strategy:
       fail-fast: true
-    name: Call CD
+    name: Launch Azure CD
     steps:
 
     - name: 🛎️ Checkout
