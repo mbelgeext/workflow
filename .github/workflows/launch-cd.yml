@@ -12,6 +12,15 @@ on:
       RELEASE_VERSION:
         required: true
         type: string
+      APPLICATION_NAME:
+        required: true
+        type: string
+      PROFILE_ENV:
+        required: true
+        type: string
+      IMAGE_NAME:
+        required: true
+        type: string
     secrets:
       AZURE_PIPELINE_TOKEN:
         required: true
@@ -38,4 +47,4 @@ jobs:
         azure-devops-project-url: ${{ inputs.AZURE_PROJECT_URL }}
         azure-pipeline-name: ${{ inputs.AZURE_PIPELINE_NAME }}
         azure-devops-token: ${{ secrets.AZURE_PIPELINE_TOKEN }}
-        azure-pipeline-variables: '{"image_version": "${{ inputs.RELEASE_VERSION }}"}'
+        azure-pipeline-variables: '{"image_version": "${{ inputs.RELEASE_VERSION }}", component_name: "${{ inputs.APPLICATION_NAME }}", acr_image: "${{ inputs.IMAGE_NAME }}", environment: "${{ inputs.PROFILE_ENV }}"}'
