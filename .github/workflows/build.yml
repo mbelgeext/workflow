@@ -21,7 +21,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: GITHUB_ENVIRONMENT    
+    environment: ${{ inputs.GITHUB_ENVIRONMENT }}    
     outputs:
       RELEASE_VERSION: ${{ steps.project-version.outputs.RELEASE_VERSION }}
     name: Build

@@ -29,7 +29,7 @@ on:
 jobs:
   publish:
     runs-on: 'ubuntu-latest'
-    environment: GITHUB_ENVIRONMENT    
+    environment: ${{ inputs.GITHUB_ENVIRONMENT }}
     name: Publish
     steps:
 

@@ -27,7 +27,7 @@ jobs:
   codeql:
     if: ${{ inputs.CODEQL_CHECKS }}
     runs-on: ubuntu-latest
-    environment: GITHUB_ENVIRONMENT    
+    environment: ${{ inputs.GITHUB_ENVIRONMENT }}    
     permissions:
       actions: read
       contents: read
@@ -69,7 +69,7 @@ jobs:
   sonar:
     if: ${{ inputs.SONAR_CHECKS }}
     runs-on: ubuntu-latest
-    environment: GITHUB_ENVIRONMENT    
+    environment: ${{ inputs.GITHUB_ENVIRONMENT }}    
     permissions:
       actions: read
       contents: read
@@ -112,7 +112,7 @@ jobs:
   cucumber:
     if: ${{ inputs.CUCUMBER_CHECKS }}
     runs-on: ubuntu-latest
-    environment: GITHUB_ENVIRONMENT    
+    environment: ${{ inputs.GITHUB_ENVIRONMENT }}    
     permissions:
       actions: read
       contents: read
