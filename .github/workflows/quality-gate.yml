@@ -15,6 +15,10 @@ on:
         type: boolean
         required: false
         default: false
+      GITHUB_ENVIRONMENT:
+        required: false
+        type: string
+        default: "development"
     secrets:
       SONAR_TOKEN:
         required: false
@@ -23,7 +27,7 @@ jobs:
   codeql:
     if: ${{ inputs.CODEQL_CHECKS }}
     runs-on: ubuntu-latest
-    environment: development    
+    environment: GITHUB_ENVIRONMENT    
     permissions:
       actions: read
       contents: read
@@ -65,7 +69,7 @@ jobs:
   sonar:
     if: ${{ inputs.SONAR_CHECKS }}
     runs-on: ubuntu-latest
-    environment: development    
+    environment: GITHUB_ENVIRONMENT    
     permissions:
       actions: read
       contents: read
@@ -108,7 +112,7 @@ jobs:
   cucumber:
     if: ${{ inputs.CUCUMBER_CHECKS }}
     runs-on: ubuntu-latest
-    environment: development    
+    environment: GITHUB_ENVIRONMENT    
     permissions:
       actions: read
       contents: read

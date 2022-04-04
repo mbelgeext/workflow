@@ -9,6 +9,10 @@ on:
       PROFILE_ENV:
         required: true
         type: string
+      GITHUB_ENVIRONMENT:
+        required: false
+        type: string
+        default: "development"
     outputs:
       RELEASE_VERSION:
         description: "Version number"
@@ -17,7 +21,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: development    
+    environment: GITHUB_ENVIRONMENT    
     outputs:
       RELEASE_VERSION: ${{ steps.project-version.outputs.RELEASE_VERSION }}
     name: Build

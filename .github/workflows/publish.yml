@@ -18,6 +18,10 @@ on:
       RELEASE_VERSION:
         required: true
         type: string
+      GITHUB_ENVIRONMENT:
+        required: false
+        type: string
+        default: "development"
     secrets:
       ACR_PASSWORD:
         required: true
@@ -25,7 +29,7 @@ on:
 jobs:
   publish:
     runs-on: 'ubuntu-latest'
-    environment: development    
+    environment: GITHUB_ENVIRONMENT    
     name: Publish
     steps:
 
