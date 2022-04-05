@@ -19,6 +19,9 @@ on:
         required: false
         type: string
         default: "development"
+      PROFILE_ENV:
+        required: true
+        type: string
     secrets:
       SONAR_TOKEN:
         required: false
@@ -124,4 +127,15 @@ jobs:
 
     - name: 🛎️ Checkout
       uses: actions/checkout@v2
+
+    - name: Test
+      run: mvn clean verify -P${{ inputs.PROFILE_ENV }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Cucumber report
+      uses: deblockt/cucumber-report-annotations-action@v1.7
+      with:
+        access-token: ${{ secrets.GITHUB_TOKEN }}
+        path: "${{ github.workspace }}/target/cucumber/cucumber-report.json"     
 
