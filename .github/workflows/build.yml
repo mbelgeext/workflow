@@ -57,10 +57,10 @@ jobs:
           RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
           echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
           echo "Version : $RELEASE_VERSION_DEV"
-     - name: 🔖 Manage release version release
-       if: !${{ inputs.RELEASE_INCREMENT }}
-       id: project-version-release
-       run: | 
+    - name: 🔖 Manage release version release
+      if: ${{ !inputs.RELEASE_INCREMENT }}
+      id: project-version-release
+      run: | 
           RELEASE_VERSION=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
           RELEASE_VERSION_PRO=$(echo $RELEASE_VERSION | sed 's/\-SNAPSHOT//')
           echo "RELEASE_VERSION=$RELEASE_VERSION_PRO" >> $GITHUB_ENV
