@@ -53,16 +53,16 @@ jobs:
     - name: 🔖 Manage release version
       id: project-version
       run: | 
-        if $RELEASE_INCREMENT; then
-          RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
-          echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
-          echo "Version : $RELEASE_VERSION_DEV"
-        else
-          RELEASE_VERSION=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
+        if $RELEASE_INCREMENT then
+           RELEASE_VERSION=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
           RELEASE_VERSION_PRO=$(echo $RELEASE_VERSION | sed 's/\-SNAPSHOT//')
           echo "RELEASE_VERSION=$RELEASE_VERSION_PRO" >> $GITHUB_ENV
           echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_PRO"
           echo "Version : $RELEASE_VERSION_PRO" 
+        else
+          RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
+          echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
+          echo "Version : $RELEASE_VERSION_DEV"
         fi
 
     - name: 💾 Cache the Maven packages to speed up build
