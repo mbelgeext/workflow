@@ -51,14 +51,14 @@ jobs:
         node-version: '12.13.0'
 
     - name: 🔖 Manage release version dev
-      if: ${{ inputs.RELEASE_INCREMENT }}
+      if: ${{ !inputs.RELEASE_INCREMENT }}
       id: project-version-dev
       run: | 
           RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
           echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
           echo "Version : $RELEASE_VERSION_DEV"
     - name: 🔖 Manage release version release
-      if: ${{ !inputs.RELEASE_INCREMENT }}
+      if: ${{ inputs.RELEASE_INCREMENT }}
       id: project-version-release
       run: | 
           RELEASE_VERSION=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
