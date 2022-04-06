@@ -22,6 +22,10 @@ on:
       PROFILE_ENV:
         required: true
         type: string
+      SKIP_TEST:
+        required: true
+        type: string      
+        default: false        
       JDK_VERSION:
         type: string
         required: false
@@ -104,7 +108,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2 
 
     - name: 🚨 Test
-      run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }} -P${{ inputs.PROFILE_ENV }}
+      run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dmaven.test.skip=${{ inputs.SKIP_TEST }} -P${{ inputs.PROFILE_ENV }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
