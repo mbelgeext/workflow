@@ -44,7 +44,7 @@ jobs:
     - name: 🔖 Manage release version
       id: project-version
       run: | 
-        if $RELEASE_INCREMENT == false; then
+        if ${{ inputs.RELEASE_INCREMENT }}; then
           RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
           echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
           echo "Version : $RELEASE_VERSION_DEV"
