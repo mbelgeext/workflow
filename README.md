@@ -63,11 +63,11 @@ This project contains generic templates to launch workflows
       uses: bouygues-construction/workflow/.github/workflows/launch-cd.yml@v1-back
       with:
         RELEASE_VERSION: ${{ needs.build.outputs.RELEASE_VERSION }}
-        AZURE_PROJECT_URL: https://dev.azure.com/BYCNITOPS/RTU
-        AZURE_PIPELINE_NAME: rtu-gateway
-        APPLICATION_NAME: rtu-gateway
+        AZURE_PROJECT_URL: https://dev.azure.com/BYCNITOPS/*****
+        AZURE_PIPELINE_NAME: *****
+        APPLICATION_NAME: *****
         PROFILE_ENV: dev
-        IMAGE_NAME: acrbcnzakstemp.azurecr.io/acrbcnzakstemp/rtu-gateway
+        IMAGE_NAME: acrbcnzakstemp.azurecr.io/*****
         #GITHUB_ENVIRONMENT: *****
       secrets:
         AZURE_PIPELINE_TOKEN: ${{ secrets.AZURE_PIPLINE_TOKEN }}
