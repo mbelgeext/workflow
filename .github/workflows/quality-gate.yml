@@ -22,6 +22,10 @@ on:
       PROFILE_ENV:
         required: true
         type: string
+      JDK_VERSION:
+        type: string
+        required: false
+        default: 8          
     secrets:
       SONAR_TOKEN:
         required: false
@@ -43,10 +47,10 @@ jobs:
     - name: 🛎️ Checkout
       uses: actions/checkout@v2
 
-    - name: ⚙️ Set up JDK 11
+    - name: ⚙️ Set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: ${{ inputs.JDK_VERSION }}    
         distribution: 'adopt'
         cache: maven
 
@@ -85,10 +89,10 @@ jobs:
     - name: 🛎️ Checkout
       uses: actions/checkout@v2
 
-    - name: ⚙️ Set up JDK 11
+    - name: ⚙️ Set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: ${{ inputs.JDK_VERSION }}    
         distribution: 'adopt'
         cache: maven
 
@@ -100,7 +104,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2 
 
     - name: 🚨 Test
-      run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Pdev 
+      run: mvn clean verify sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }} -P${{ inputs.PROFILE_ENV }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
