@@ -35,21 +35,6 @@ on:
         required: false
 jobs:
 
-  test-evn:
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.GITHUB_ENVIRONMENT }}  
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    strategy:
-      fail-fast: true
-    name: test
-    steps:
-
-    - run: | 
-        echo 'printing envs'
-        echo ${{ secrets.SONAR_TOKEN }}  
   codeql:
     if: ${{ inputs.CODEQL_CHECKS }}
     runs-on: ubuntu-latest
