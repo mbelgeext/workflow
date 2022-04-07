@@ -30,11 +30,24 @@ on:
         type: string
         required: false
         default: 8          
-    secrets:
-      SONAR_TOKEN:
-        required: false
 
 jobs:
+
+  test-evn:
+    runs-on: ubuntu-latest
+    environment:   
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: true
+    name: test
+    steps:
+
+    - run: ! 
+        echo 'printing envs'
+        echo ${{ inputs.RTU_SONAR_TOKEN }}  
   codeql:
     if: ${{ inputs.CODEQL_CHECKS }}
     runs-on: ubuntu-latest
