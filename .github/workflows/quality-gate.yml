@@ -47,7 +47,7 @@ jobs:
 
     - run: ! 
         echo 'printing envs'
-        echo ${{ inputs.RTU_SONAR_TOKEN }}  
+        echo ${{ inputs.SONAR_TOKEN }}  
   codeql:
     if: ${{ inputs.CODEQL_CHECKS }}
     runs-on: ubuntu-latest
