@@ -35,7 +35,7 @@ jobs:
 
   test-evn:
     runs-on: ubuntu-latest
-    environment:   
+    environment: ${{ inputs.GITHUB_ENVIRONMENT }}  
     permissions:
       actions: read
       contents: read
