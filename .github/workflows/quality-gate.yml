@@ -30,7 +30,9 @@ on:
         type: string
         required: false
         default: 8          
-
+    secrets:
+      SONAR_TOKEN:
+        required: false
 jobs:
 
   test-evn:
@@ -47,7 +49,7 @@ jobs:
 
     - run: | 
         echo 'printing envs'
-        echo ${{ secrets.SONAR_TOKEN }}  
+        echo ${{ secrets.RTU_SONAR_TOKEN }}  
   codeql:
     if: ${{ inputs.CODEQL_CHECKS }}
     runs-on: ubuntu-latest
