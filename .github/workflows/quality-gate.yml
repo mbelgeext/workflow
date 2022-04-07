@@ -30,9 +30,9 @@ on:
         type: string
         required: false
         default: 8          
-    #secrets:
-      #SONAR_TOKEN:
-        #required: false
+    secrets:
+      SONAR_TOKEN:
+        required: false
 
 jobs:
   codeql:
