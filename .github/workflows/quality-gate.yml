@@ -45,7 +45,7 @@ jobs:
     name: test
     steps:
 
-    - run: ! 
+    - run: | 
         echo 'printing envs'
         echo ${{ inputs.SONAR_TOKEN }}  
   codeql:
