@@ -143,5 +143,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: cucumber-report-html.zip
-        path: "${{ github.workspace }}/target/cucumber/cucumber-report.html"
+        path: "${{ github.workspace }}/target/cucumber-html-reports"
 
