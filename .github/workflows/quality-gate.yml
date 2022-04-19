@@ -142,12 +142,6 @@ jobs:
     - name: ⬇️ Upload artifact cucumber report
       uses: actions/upload-artifact@v2
       with:
-        name: cucumber-report1
-        path: "${{ github.workspace }}/target/cucumber/cucumber-report.json"
-
-    - name: ⬇️ Upload artifact cucumber report 2
-      uses: actions/upload-artifact@v2
-      with:
-        name: cucumber-report2
+        name: cucumber-report-html.zip
         path: "${{ github.workspace }}/target/cucumber/cucumber-report.html"
 
