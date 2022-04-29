@@ -69,6 +69,7 @@ This project contains generic workflow templates for Mono application (Angular +
 
 ## 🚚 Publish workflow
 
+### Example Usage
 ```
   publish:
     name: 🚚
@@ -83,3 +84,17 @@ This project contains generic workflow templates for Mono application (Angular +
     secrets:
       ACR_PASSWORD: ${{ secrets.***** }}
 ```
+### Inputs
+| Variable  | Example Value &nbsp;| Description &nbsp; | Type | Required | Default |
+| ------------- | ------------- | ------------- |------------- | ------------- | ------------- |
+| RELEASE_VERSION | ${{ needs.build.outputs.RELEASE_VERSION }} | Version returned from pervious step | String | true | N/A
+| APPLICATION_NAME | Name of the application | Same name as other job | String | true | N/A
+| ACR_URL | ACR URL | URL of ACR | String | true | development
+| ACR_USERNAME | dev/pro | ACR account name | String | true | N/A
+| IMAGE_NAME | Name of Image | Environment defined in github environments | String | true | development
+
+### Secrets
+| Variable  | Example Value &nbsp;| Description &nbsp; | Type | Required | Default |
+| ------------- | ------------- | ------------- |------------- | ------------- | ------------- |
+| ACR_PASSWORD | Password for ACR account | password of ACR account | String | true | N/A
+
