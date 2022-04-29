@@ -20,7 +20,11 @@ on:
       JDK_VERSION:
         type: string
         required: false
-        default: 8        
+        default: 8  
+      SKIP_TEST:
+        required: false
+        type: string      
+        default: false               
     outputs:
       RELEASE_VERSION:
         description: "Version number"
@@ -75,7 +79,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2   
       
     - name: 🏗️ Build 
-      run: mvn  -B -DskipTests -Darguments=-DskipTests clean install -P${{ inputs.PROFILE_ENV }} -Dwar.name=ROOT
+      run: mvn  -B -Dmaven.test.skip=${{ inputs.SKIP_TEST }} clean install -P${{ inputs.PROFILE_ENV }} -Dwar.name=ROOT
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
