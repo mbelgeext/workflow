@@ -58,7 +58,7 @@ jobs:
         npm ci
     - name: Build Angular with NPM
       run: |
-        npm run ${{ BUILD_SCRIPT }}
+        npm run ${{ inputs.BUILD_SCRIPT }}
     - name: Get package version
       id: project-version
       run: |
@@ -71,5 +71,5 @@ jobs:
       if: success()
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ APPLICATION_NAME }}
+        name: ${{ inputs.APPLICATION_NAME }}
         path: '${{ github.workspace }}/dist'
