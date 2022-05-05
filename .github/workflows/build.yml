@@ -6,14 +6,14 @@ on:
       APPLICATION_NAME:
         required: true
         type: string
-      PROFILE_ENV:
-        required: true
-        type: string
       GITHUB_ENVIRONMENT:
         required: false
         type: string
         default: "development"
-
+      BUILD_SCRIPT:
+        required: false
+        type: string
+        default: "build-prod"
     outputs:
       RELEASE_VERSION:
         description: "Version number"
@@ -58,7 +58,7 @@ jobs:
         npm ci
     - name: Build Angular with NPM
       run: |
-        npm run build:develop
+        npm run ${{ BUILD_SCRIPT }}
     - name: Get package version
       id: project-version
       run: |
