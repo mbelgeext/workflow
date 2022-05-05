@@ -33,7 +33,6 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-        cache: maven
 
     - name: Use Node 14.x
       uses: actions/setup-node@v2
