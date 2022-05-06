@@ -3,10 +3,6 @@ name: Quality-gate
 on:
   workflow_call:
     inputs:
-      SONAR_CHECKS:
-        type: boolean
-        required: false
-        default: false
       SONAR_URL:
         type: boolean
         required: false
@@ -21,7 +17,6 @@ on:
 
 jobs:
   sonar:
-    if: ${{ inputs.SONAR_CHECKS }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.GITHUB_ENVIRONMENT }}    
     permissions:
