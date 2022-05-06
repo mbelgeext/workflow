@@ -3,6 +3,14 @@ name: Quality-gate
 on:
   workflow_call:
     inputs:
+      SONAR_CHECKS:
+        type: boolean
+        required: false
+        default: false
+      CODEQL_CHECKS:
+        type: boolean
+        required: false
+        default: false    
       SONAR_URL:
         type: string
         required: false
@@ -17,6 +25,7 @@ on:
 
 jobs:
   sonar:
+    if: ${{ inputs.SONAR_CHECKS }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.GITHUB_ENVIRONMENT }}    
     permissions:
@@ -75,5 +84,40 @@ jobs:
       timeout-minutes: 5
       env: 
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}     
+  codeql:
+    if: ${{ inputs.CODEQL_CHECKS }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.GITHUB_ENVIRONMENT }}    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: true
+    name: CodeQL checks
+    steps:
+
+    - name: 🛎️ Checkout
+      uses: actions/checkout@v2
+
+    - name: ⚙️ Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: maven
+
+
+    - name: 🔨 Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        # config-file: ./.github/codeql/codeql-config.yml
+        languages: javascript
+
+    - name: 🔧 Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: 🧐 Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
 
   
