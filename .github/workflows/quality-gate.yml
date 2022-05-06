@@ -4,9 +4,9 @@ on:
   workflow_call:
     inputs:
       SONAR_URL:
-        type: boolean
+        type: string
         required: false
-        default: false        
+        default: "http://bycnit-sonarqube.westeurope.cloudapp.azure.com"        
       GITHUB_ENVIRONMENT:
         required: false
         type: string
