@@ -16,6 +16,12 @@ on:
       IMAGE_NAME:
         required: true
         type: string
+      ACR_URL:
+        required: true
+        type: string
+      ACR_USERNAME:
+        required: true
+        type: string                  
       GITHUB_ENVIRONMENT:
         required: false
         type: string
@@ -23,6 +29,8 @@ on:
     secrets:
       AZURE_APPSERVICE_PUBLISH_PROFILE:
         required: true
+      ACR_PASS:
+        required: true        
 jobs:
   launch-cd:
     runs-on: ubuntu-latest
@@ -36,6 +44,13 @@ jobs:
     name: Launch Azure CD
 
     steps:
+    - name: Log in to container registry
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ inputs.ACR_URL }}  
+        username: ${{ inputs.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASS }}
+
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
