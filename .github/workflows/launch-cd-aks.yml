@@ -1,4 +1,4 @@
-name: Launch-cd
+name: Launch-cd-aks
 
 on:
   workflow_call:
