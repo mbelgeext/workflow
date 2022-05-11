@@ -1,0 +1,61 @@
+name: Launch-cd-azap
+
+on:
+  workflow_call:
+    inputs:
+      SLOT_NAME:
+        required: true
+        type: string
+        default: "production"              
+      RELEASE_VERSION:
+        required: true
+        type: string
+      APPLICATION_NAME:
+        required: true
+        type: string
+      IMAGE_NAME:
+        required: true
+        type: string
+      ACR_URL:
+        required: true
+        type: string
+      ACR_USERNAME:
+        required: true
+        type: string                  
+      GITHUB_ENVIRONMENT:
+        required: false
+        type: string
+        default: "development"
+    secrets:
+      AZURE_APPSERVICE_PUBLISH_PROFILE:
+        required: true
+      ACR_PASSWORD:
+        required: true        
+jobs:
+  launch-cd:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.GITHUB_ENVIRONMENT }}    
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: true
+    name: Launch Azure CD
+
+    steps:
+    - name: 🔒️ Log in to registry
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ inputs.ACR_URL }}
+        username: ${{ inputs.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }} 
+
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ inputs.APPLICATION_NAME }}  
+        slot-name: ${{ inputs.SLOT_NAME }}  
+        publish-profile: ${{ secrets.AZURE_APPSERVICE_PUBLISH_PROFILE }}
+        images: ${{ inputs.IMAGE_NAME }}
