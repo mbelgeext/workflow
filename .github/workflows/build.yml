@@ -28,7 +28,7 @@ on:
       SKIP_TEST:
         required: false
         type: string      
-        default: false       
+        default: true       
       UPLOAD_ARTIFACT:
         required: false
         type: boolean      
