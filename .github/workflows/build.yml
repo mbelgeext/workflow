@@ -21,10 +21,18 @@ on:
         type: string
         required: false
         default: 8  
+      WAR_NAME:
+        type: string
+        required: false
+        default: "ROOT"        
       SKIP_TEST:
         required: false
         type: string      
-        default: false               
+        default: false       
+      UPLOAD_ARTIFACT:
+        required: false
+        type: boolean      
+        default: true                  
     outputs:
       RELEASE_VERSION:
         description: "Version number"
@@ -79,11 +87,12 @@ jobs:
         restore-keys: ${{ runner.os }}-m2   
       
     - name: 🏗️ Build 
-      run: mvn  -B -Dmaven.test.skip=${{ inputs.SKIP_TEST }} clean install -P${{ inputs.PROFILE_ENV }} -Dwar.name=ROOT
+      run: mvn  -B -Dmaven.test.skip=${{ inputs.SKIP_TEST }} clean install -P${{ inputs.PROFILE_ENV }} -Dwar.name=${{ inputs.WAR_NAME }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: ⬇️ Upload artifact
+      if: ${{ inputs.UPLOAD_ARTIFACT }}    
       uses: actions/upload-artifact@v2
       with:
         name: ${{ inputs.APPLICATION_NAME }}
