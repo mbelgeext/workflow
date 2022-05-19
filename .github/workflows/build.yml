@@ -13,6 +13,14 @@ on:
         required: false
         type: string
         default: "development"
+      GITHUB_ACCOUNT:
+        required: false
+        type: string
+        default: "bycnit-vinhtong"
+      GITHUB_EMAIL:
+        required: false
+        type: string
+        default: "vinh.tong@bouygues-construction.com"
       RELEASE_INCREMENT:
         type: boolean
         required: false
@@ -94,8 +102,8 @@ jobs:
 
     - name: Configure Git user
       run: |
-        git config user.email "noreply@bouygues-construction.com"
-        git config user.name "bycnit"
+        git config user.email ${{ inputs.GITHUB_ACCOUNT }}
+        git config user.name ${{ inputs.GITHUB_EMAIL }}
 
     - name: Build release
       if: ${{ inputs.RELEASE_INCREMENT }}    
