@@ -87,7 +87,15 @@ jobs:
         restore-keys: ${{ runner.os }}-m2   
       
     - name: 🏗️ Build 
+      if: ${{ !inputs.RELEASE_INCREMENT }}    
       run: mvn  -B -Dmaven.test.skip=${{ inputs.SKIP_TEST }} clean install -P${{ inputs.PROFILE_ENV }} -Dwar.name=${{ inputs.WAR_NAME }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+    - name: Build release
+      if: ${{ inputs.RELEASE_INCREMENT }}    
+      run: mvn -B -DskipTests -Darguments=-DskipTests release:prepare release:perform -P${{ inputs.PROFILE_ENV }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
