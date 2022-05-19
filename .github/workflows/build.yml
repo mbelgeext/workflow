@@ -102,8 +102,8 @@ jobs:
 
     - name: Configure Git user
       run: |
-        git config user.email ${{ inputs.GITHUB_ACCOUNT }}
-        git config user.name ${{ inputs.GITHUB_EMAIL }}
+        git config user.email ${{ inputs.GITHUB_EMAIL }}
+        git config user.name ${{ inputs.GITHUB_ACCOUNT }}
 
     - name: Build release
       if: ${{ inputs.RELEASE_INCREMENT }}    
