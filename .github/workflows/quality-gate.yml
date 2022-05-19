@@ -33,7 +33,11 @@ on:
       SONAR_HOST:
         required: false
         type: string  
-        default: "http://bycnit-sonarqube.westeurope.cloudapp.azure.com"               
+        default: "http://bycnit-sonarqube.westeurope.cloudapp.azure.com"      
+      QUALITY_GATE_CHECK:
+        required: false
+        type: boolean      
+        default: true                   
     secrets:
       SONAR_TOKEN:
         required: false
@@ -117,6 +121,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: ✅ SonarQube Quality Gate Check
+      if: ${{ inputs.QUALITY_GATE_CHECK }}    
       uses: SonarSource/sonarqube-quality-gate-action@v1.0.0
       timeout-minutes: 5
       with:
