@@ -70,6 +70,11 @@ jobs:
       with:
         node-version: '12.13.0'
 
+    - name: Configure Git user
+      run: |
+        git config user.email "vinh.tong@bouygues-construction.com"
+        git config user.name "bycnit-vinhtong"
+
     - name: 🔖 Manage release version dev
       if: ${{ !inputs.RELEASE_INCREMENT }}
       id: project-version-dev
@@ -100,14 +105,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Configure Git user
-      run: |
-        git config user.email "${{ inputs.GITHUB_EMAIL }}"
-        git config user.name "${{ inputs.GITHUB_ACCOUNT }}"
+
 
     - name: Build release
       if: ${{ inputs.RELEASE_INCREMENT }}    
-      run: mvn -B -DskipTests -Darguments=-DskipTests release:prepare release:perform -P${{ inputs.PROFILE_ENV }}
+      run: mvn -B -DskipTests -Darguments=-DskipTests  -Darguments="-Dmaven.javadoc.skip=true -Dmaven.test.skip=true" release:prepare release:perform -P${{ inputs.PROFILE_ENV }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
