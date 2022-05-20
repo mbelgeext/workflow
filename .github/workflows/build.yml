@@ -72,8 +72,8 @@ jobs:
 
     - name: Configure Git user
       run: |
-        git config user.email "vinh.tong@bouygues-construction.com"
-        git config user.name "bycnit-vinhtong"
+        git config user.email ${{ GITHUB_EMAIL }}
+        git config user.name ${{ GITHUB_ACCOUNT }}
 
     - name: 🔖 Manage release version dev
       if: ${{ !inputs.RELEASE_INCREMENT }}
