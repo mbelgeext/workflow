@@ -58,16 +58,16 @@ jobs:
         restore-keys: ${{ runner.os }}-m2 
 
     - name: 🔨 Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
         config-file: ./.github/codeql/codeql-config.yml
         languages: java
 
     - name: 🔧 Autobuild
-      uses: github/codeql-action/autobuild@v1
+      uses: github/codeql-action/autobuild@v2
 
     - name: 🧐 Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v2
 
   sonar:
     if: ${{ inputs.SONAR_CHECKS }}
