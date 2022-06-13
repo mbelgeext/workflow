@@ -106,14 +106,14 @@ jobs:
       with:
         java-version: ${{ inputs.JDK_VERSION }}    
         distribution: 'adopt'
-        cache: maven
+        # cache: maven
 
-    - name: 💾 Cache the Maven packages to speed up build
-      uses: actions/cache@v1
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2 
+    # - name: 💾 Cache the Maven packages to speed up build
+      # uses: actions/cache@v1
+      # with:
+        # path: ~/.m2
+        # key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        # restore-keys: ${{ runner.os }}-m2 
 
     - name: 🚨 Test
       run: mvn clean verify sonar:sonar -Dsonar.host.url=${{ inputs.SONAR_HOST }} -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dmaven.test.skip=${{ inputs.SKIP_TEST }} -P${{ inputs.PROFILE_ENV }}
