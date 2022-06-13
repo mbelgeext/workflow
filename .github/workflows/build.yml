@@ -63,7 +63,7 @@ jobs:
       with:
         java-version: ${{ inputs.JDK_VERSION }}    
         distribution: 'adopt'
-        cache: maven
+        # cache: maven
 
     - name: Use Node 12.x
       uses: actions/setup-node@v2
