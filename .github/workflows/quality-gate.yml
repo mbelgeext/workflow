@@ -48,7 +48,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-        #cache: maven
+        cache: maven
 
     - name: 💾 Cache the Maven packages to speed up build
       uses: actions/cache@v3
@@ -90,7 +90,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-        #cache: maven
+        cache: maven
 
     - name: 💾 Cache the Maven packages to speed up build
       uses: actions/cache@v3
