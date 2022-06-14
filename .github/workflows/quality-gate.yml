@@ -50,12 +50,12 @@ jobs:
         distribution: 'adopt'
         cache: maven
 
-    - name: 💾 Cache the Maven packages to speed up build
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2 
+    # - name: 💾 Cache the Maven packages to speed up build
+    #   uses: actions/cache@v3
+    #   with:
+    #     path: ~/.m2
+    #     key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    #     restore-keys: ${{ runner.os }}-m2 
 
     - name: 🔨 Initialize CodeQL
       uses: github/codeql-action/init@v2
