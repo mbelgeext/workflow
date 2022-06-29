@@ -44,6 +44,10 @@ jobs:
 
     - name: 🛎️ Checkout
       uses: actions/checkout@v2
+    
+    - name: check variables
+      shell: bash
+      run: echo "var test" ${{ inputs.APPLICATION_NAME }} ${{ inputs.RELEASE_VERSION }}
 
     - name: 🚀 Launching CD
       uses: Azure/pipelines@v1.2 
