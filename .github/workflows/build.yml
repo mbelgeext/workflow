@@ -52,11 +52,9 @@ jobs:
       id: project-version
       run: | 
         if ${{ inputs.RELEASE_INCREMENT }}; then
+          mvn release:update-versions -DautoVersionSubmodules=true
           RELEASE_VERSION=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
-          RELEASE_VERSION_PRO=$(echo $RELEASE_VERSION | sed 's/\-SNAPSHOT//')
-          echo "RELEASE_VERSION=$RELEASE_VERSION_PRO" >> $GITHUB_ENV
-          echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_PRO"
-          echo "Version auto incremented : $RELEASE_VERSION_PRO" 
+          echo "Version auto incremented : $RELEASE_VERSION" 
         else
           RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
           echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
