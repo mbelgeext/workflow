@@ -52,7 +52,7 @@ jobs:
       id: project-version
       run: | 
         if ${{ inputs.RELEASE_INCREMENT }}; then
-          mvn -B release:prepare release:perform
+          mvn -B release:prepare
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
