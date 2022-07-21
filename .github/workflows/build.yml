@@ -52,7 +52,7 @@ jobs:
       id: project-version
       run: | 
         if ${{ inputs.RELEASE_INCREMENT }}; then
-          mvn release:prepare release:perform -DautoVersionSubmodules=true -DskipTests
+          mvn -B release:prepare release:perform
           RELEASE_VERSION=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
           echo "Version auto incremented : $RELEASE_VERSION"
         else
