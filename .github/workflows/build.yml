@@ -51,17 +51,17 @@ jobs:
     - name: 🔖 Manage release version
       id: project-version
       run: | 
-        RELEASE_VERSION_MVN=''
         if ${{ inputs.RELEASE_INCREMENT }}; then
-          mvn release:prepare release:perform -DautoVersionSubmodules=true
+          mvn release:prepare release:perform -DautoVersionSubmodules=true -DskipTests
           RELEASE_VERSION=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
           echo "Version auto incremented : $RELEASE_VERSION"
-          RELEASE_VERSION_MVN='release:prepare'
         else
           RELEASE_VERSION_DEV=$(echo $( mvn help:evaluate -Dexpression=project.version -q -DforceStdout )) 
           echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION_DEV"
           echo "Version from pom : $RELEASE_VERSION_DEV"
         fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
     - name: 🏗️ Build 
       run: mvn -B -DskipTests -Darguments=-DskipTests clean install -P${{ inputs.PROFILE_ENV }}
