@@ -42,7 +42,7 @@ jobs:
     - name: 🛎️ Checkout
       uses: actions/checkout@v3
       with:
-        ref: master
+        ref: ${{ github.ref }}
   #  - name: 💾 Cache the Maven packages to speed up build
   #     uses: actions/cache@v3
   #     with:
