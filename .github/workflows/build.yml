@@ -48,6 +48,11 @@ jobs:
         distribution: 'adopt'
         cache: maven
 
+    - name: Configure Git user
+      run: |
+        git config user.email ${{ inputs.GITHUB_EMAIL }}
+        git config user.name ${{ inputs.GITHUB_ACCOUNT }}
+
     - name: 🔖 Manage release version
       id: project-version
       run: | 
@@ -64,7 +69,7 @@ jobs:
         fi
       
     - name: 🏗️ Build 
-      run: mvn -B -DskipTests -Darguments=-DskipTests clean install release:clean release:prepare -P${{ inputs.PROFILE_ENV }}
+      run: mvn -B -DskipTests -Darguments=-DskipTests clean install release:clean release:prepare release:perform -P${{ inputs.PROFILE_ENV }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
