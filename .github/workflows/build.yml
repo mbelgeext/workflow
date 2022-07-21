@@ -17,6 +17,14 @@ on:
         type: boolean
         required: false
         default: false
+      GITHUB_ACCOUNT:
+        required: false
+        type: string
+        default: "lnguyen-bycnit"
+      GITHUB_EMAIL:
+        required: false
+        type: string
+        default: "l.nguyen@bouygues-construction.com"
     outputs:
       RELEASE_VERSION:
         description: "Version number"
