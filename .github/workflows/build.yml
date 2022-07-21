@@ -64,7 +64,7 @@ jobs:
         fi
       
     - name: 🏗️ Build 
-      run: mvn -B -DskipTests -Darguments=-DskipTests clean install release:prepare release:perform -P${{ inputs.PROFILE_ENV }}
+      run: mvn -B -DskipTests -Darguments=-DskipTests clean install release:update-versions -P${{ inputs.PROFILE_ENV }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
