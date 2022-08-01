@@ -1,0 +1,91 @@
+name: Build Release
+
+on:
+  workflow_call:
+    inputs:
+      JAVA_VERSION:
+        required: true
+        type: string
+      JAVA_VERSION_NAME:
+        required: true
+        type: string
+      GITHUB_ACCOUNT:
+        required: false
+        type: string
+      GITHUB_EMAIL:
+        required: false
+        type: string
+    outputs:
+      RELEASE_VERSION:
+        description: "Version number"
+        value: ${{ jobs.build.outputs.RELEASE_VERSION }}
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.JAVA_VERSION }}
+          distribution: ${{ inputs.JAVA_VERSION_NAME }}
+          cache: maven
+          
+      - name: Configure Git user
+        run: |
+          git config user.email ${{ inputs.GITHUB_EMAIL }}
+          git config user.name ${{ inputs.GITHUB_ACCOUNT }}
+          
+      - name: Find latest tag released
+        id: latest_tag     
+        uses: oprypin/find-latest-tag@v1
+        with:
+          repository: ${{ github.repository }}
+          releases-only: true
+          
+      - name: Get app info
+        id: app-info
+        run: | 
+          TMP_VERSION=$(echo $( mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout )) 
+          RELEASE_VERSION=$(echo $TMP_VERSION | sed 's/\-SNAPSHOT//')
+          echo "::set-output name=RELEASE_VERSION::$RELEASE_VERSION"
+          echo "Version : $RELEASE_VERSION"
+          NAME=$(echo $( mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.name -q -DforceStdout )) 
+          echo "::set-output name=NAME::$NAME"
+          echo "Name : $NAME"
+          PACKAGING=$(echo $( mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.packaging -q -DforceStdout )) 
+          echo "::set-output name=PACKAGING::$PACKAGING"
+          echo "Packaging : $PACKAGING"
+          
+      - name: Build release  
+        run: mvn -B release:prepare -Dtag=v${{ steps.app-info.outputs.release_version }} -Dresume=false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         
+      - name: Create the release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: v${{ steps.app-info.outputs.release_version }}
+          release_name: v${{ steps.app-info.outputs.release_version }}
+          body: |
+            **Full Changelog**: ${{ github.server_url }}/${{ github.repository }}/compare/${{ steps.latest_tag.outputs.tag }}...v${{ steps.app-info.outputs.release_version }}
+          draft: false
+          prerelease: false
+          
+      - name: Upload asset in the release
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ${{ github.workspace }}/target/${{ steps.app-info.outputs.name }}-${{ steps.app-info.outputs.release_version }}.${{ steps.app-info.outputs.packaging }}
+          asset_name: ${{ steps.app-info.outputs.name }}.${{ steps.app-info.outputs.packaging }}
+          asset_content_type: application/war
