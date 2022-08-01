@@ -1,0 +1,35 @@
+name: deploy
+
+on:
+  workflow_call:
+    inputs:
+      AZURE_DEVOPS_PROJECT_URL:
+        required: true
+        type: string 
+      AZURE_DEVOPS_PIPELINE_NAME:
+        required: true
+        type: string
+      AZURE_DEVOPS_TOKEN:
+        required: true
+        type: string
+      AZURE_DEVOPS_PIPELINE_VARIABLES:
+        required: true
+        type: string
+
+jobs:
+  azpipeline:
+    name: Calling Azure Pipeline for deployment
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Calling Azure Pipeline
+      uses: Azure/pipelines@v1.2 
+      with:
+        azure-devops-project-url: ${{ inputs.AZURE_DEVOPS_PROJECT_URL }}
+        azure-devops-token: ${{ inputs.AZURE_DEVOPS_TOKEN }}
+        azure-pipeline-name: ${{ inputs.AZURE_DEVOPS_PIPELINE_NAME }}
+        azure-pipeline-variables: ${{ inputs.AZURE_DEVOPS_PIPELINE_VARIABLES }}

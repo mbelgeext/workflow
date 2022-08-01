@@ -24,6 +24,8 @@ jobs:
   build:
     name: Build dev and upload asset in dev release
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
