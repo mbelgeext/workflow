@@ -1,0 +1,82 @@
+name: Build dev
+
+on:
+  workflow_call:
+    inputs:
+      JAVA_VERSION:
+        required: true
+        type: string
+      JAVA_VERSION_NAME:
+        required: true
+        type: string
+    outputs:
+      BUILD_NAME:
+        description: "Build name-version"
+        value: ${{ jobs.build.outputs.BUILD_NAME }}
+      NAME:
+        description: "Build name"
+        value: ${{ jobs.build.outputs.NAME }}
+      PACKAGING:
+        description: "Build type"
+        value: ${{ jobs.build.outputs.PACKAGING }}
+
+jobs:
+  build:
+    name: Build dev and upload asset in dev release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.JAVA_VERSION }}
+          distribution: ${{ inputs.JAVA_VERSION_NAME }}
+          cache: maven
+
+      - name: Build dev packages with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Get dev app info
+        id: app-info-dev
+        run: | 
+            BUILD_NAME=$(echo $( mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.build.finalName -q -DforceStdout )) 
+            echo "::set-output name=BUILD_NAME::$BUILD_NAME"
+            echo "Version : $BUILD_NAME"
+            NAME=$(echo $( mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.name -q -DforceStdout )) 
+            echo "::set-output name=NAME::$NAME"
+            echo "Name : $NAME"
+            PACKAGING=$(echo $( mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.packaging -q -DforceStdout )) 
+            echo "::set-output name=PACKAGING::$PACKAGING"
+            echo "Packaging : $PACKAGING"
+
+      - name: Delete old assets in dev release
+        uses: mknejp/delete-release-assets@v1
+        with:
+          token: ${{ github.token }}
+          tag: dev                            # This may also be of the form 'refs/tags/staging'
+          fail-if-no-assets: false
+          fail-if-no-release: true
+          assets: | 
+            *.war
+            *.jar
+
+      - name: Get dev release info
+        uses: cardinalby/git-get-release-action@v1
+        id: dev-release-info
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag: 'dev' 
+
+      - name: Upload asset in dev release
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.dev-release-info.outputs.upload_url }} 
+          asset_path: ${{ github.workspace }}/target/${{ steps.app-info-dev.outputs.build_name }}.${{ steps.app-info-dev.outputs.packaging }}
+          asset_name: ${{ steps.app-info-dev.outputs.name }}.${{ steps.app-info-dev.outputs.packaging }}
+          asset_content_type: application/war
