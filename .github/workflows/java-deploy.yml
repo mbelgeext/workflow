@@ -9,12 +9,12 @@ on:
       AZURE_DEVOPS_PIPELINE_NAME:
         required: true
         type: string
-      AZURE_DEVOPS_TOKEN:
-        required: true
-        type: string
       AZURE_DEVOPS_PIPELINE_VARIABLES:
         required: true
         type: string
+    secrets:
+      AZURE_DEVOPS_TOKEN:
+        required: true
 
 jobs:
   azpipeline:
@@ -30,6 +30,6 @@ jobs:
       uses: Azure/pipelines@v1.2 
       with:
         azure-devops-project-url: ${{ inputs.AZURE_DEVOPS_PROJECT_URL }}
-        azure-devops-token: ${{ inputs.AZURE_DEVOPS_TOKEN }}
+        azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
         azure-pipeline-name: ${{ inputs.AZURE_DEVOPS_PIPELINE_NAME }}
         azure-pipeline-variables: ${{ inputs.AZURE_DEVOPS_PIPELINE_VARIABLES }}
