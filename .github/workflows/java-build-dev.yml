@@ -80,5 +80,5 @@ jobs:
         with:
           upload_url: ${{ steps.dev-release-info.outputs.upload_url }} 
           asset_path: ${{ github.workspace }}/target/${{ steps.app-info-dev.outputs.build_name }}.${{ steps.app-info-dev.outputs.packaging }}
-          asset_name: ${{ steps.app-info-dev.outputs.name }}.${{ steps.app-info-dev.outputs.packaging }}
+          asset_name: ${{ steps.app-info-dev.outputs.build_name }}.${{ steps.app-info-dev.outputs.packaging }}
           asset_content_type: application/war
