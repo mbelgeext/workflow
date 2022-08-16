@@ -116,4 +116,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ inputs.APPLICATION_NAME }}
-        path: '${{ github.workspace }}/target/${{ inputs.WAR_NAME }}' 
+        path: '${{ github.workspace }}/target/${{ inputs.WAR_NAME }}.war' 
