@@ -109,13 +109,15 @@ jobs:
 
     - name: Build release
       if: ${{ inputs.RELEASE_INCREMENT }}    
-      run: mvn -B -DskipTests -Darguments=-DskipTests  -Darguments="-Dmaven.javadoc.skip=true -Dmaven.test.skip=true" release:prepare release:perform -P${{ inputs.PROFILE_ENV }}
+      run: mvn -B -DskipTests -Darguments=-DskipTests  -Darguments="-Dmaven.javadoc.skip=true -Dmaven.test.skip=true" release:prepare release:perform -P${{ inputs.PROFILE_ENV }} -Dwar.name=${{ inputs.WAR_NAME }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: check path 
+      run: ls ${{ github.workspace }}/target
     - name: ⬇️ Upload artifact
       if: ${{ inputs.UPLOAD_ARTIFACT }}    
       uses: actions/upload-artifact@v2
       with:
         name: ${{ inputs.APPLICATION_NAME }}
-        path: '${{ github.workspace }}/target/ROOT.jar' 
+        path: '${{ github.workspace }}/target/${{ inputs.WAR_NAME }}' 
