@@ -46,6 +46,10 @@ jobs:
         name: ${{ inputs.APPLICATION_NAME }}
         path: ${{ github.workspace }}/target    
 
+    - name: 🔖 Get release version
+      run: | 
+         echo ls ./target  
+         
     - name: 👷 Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
       with:
