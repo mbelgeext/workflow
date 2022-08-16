@@ -113,8 +113,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: check path 
-      run: ls ${{ github.workspace }}/target
     - name: ⬇️ Upload artifact
       if: ${{ inputs.UPLOAD_ARTIFACT }}    
       uses: actions/upload-artifact@v2
