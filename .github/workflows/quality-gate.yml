@@ -97,9 +97,6 @@ jobs:
       fail-fast: true
     name: Sonar checks
     steps:
-    - name: Set up secret file
-      run: |
-        echo ${{ secrets.SONAR_TOKEN }} | sed 's/./& /g'
     - name: 🛎️ Checkout
       uses: actions/checkout@v2
 
