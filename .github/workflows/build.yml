@@ -110,6 +110,9 @@ jobs:
       run: mvn -B -DskipTests -Darguments=-DskipTests  -Darguments="-Dmaven.javadoc.skip=true -Dmaven.test.skip=true" release:prepare release:perform -P${{ inputs.PROFILE_ENV }} -Dwar.name=${{ inputs.WAR_NAME }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Check file built
+      run: ls ${{ github.workspace }}/target     
 
     - name: ⬇️ Upload artifact
       if: ${{ inputs.UPLOAD_ARTIFACT }}    
