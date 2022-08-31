@@ -7,7 +7,7 @@ on:
         required: true
         type: string
       PROFILE_ENV:
-        required: true
+        required: false
         type: string
       GITHUB_ENVIRONMENT:
         required: false
